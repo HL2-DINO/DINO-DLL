@@ -1,0 +1,31 @@
+namespace HL2DinoPlugin
+{
+runtimeclass HL2ResearchModeController
+    {
+        HL2ResearchModeController();
+        HL2ResearchModeController(String toolConfigString, Boolean isJsonFormattedString);
+
+        void InitialiseDepthSensor();
+        void StartDepthSensorLoop();
+        void StopSensorLoop();
+        void SetReferenceCoordinateSystem(Windows.Perception.Spatial.SpatialCoordinateSystem coordinateFrame);
+        void SetToolListByString(String toolListString);
+        void ToggleDisplaySensorImages(Boolean showTextures);
+
+        Boolean ToolDictionaryUpdated();
+        Boolean RawDepthImageUpdated();
+        Boolean RawABImageUpdated();
+        Boolean Depth8BitImageUpdated();
+        Boolean AB8BitImageUpdated();
+
+        Double[] GetTrackedToolsPoseMatrices();
+
+        UInt16[] GetRawDepthImageBuffer();
+        UInt16[] GetRawABImageBuffer();
+
+        UInt8[] Get8BitDepthImageBuf();
+        UInt8[] Get8BitABImageBuf();
+
+        String GetProfilerString();
+    };
+}
