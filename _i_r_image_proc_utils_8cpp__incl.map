@@ -1,0 +1,22 @@
+<map id="IRImageProcUtils.cpp" name="IRImageProcUtils.cpp">
+<area shape="rect" id="Node000001" title="Utility image processing functions." alt="" coords="185,5,334,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="16,79,69,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,34,84,80,82,75,222,29"/>
+<area shape="rect" id="Node000003" href="$_i_r_tracker_utils_8h.html" title="Function prototypes for general utilities used by the Holo2IRTracker class. Implementations split in ..." alt="" coords="143,79,259,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,33,222,69,218,65,248,30"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,153,130,178"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="223,34,178,53,133,81,105,110,84,141,79,138,101,107,130,77,175,48,220,29"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="283,79,354,105"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="271,30,301,65,297,69,267,33"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="378,79,523,105"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="293,29,405,71,403,76,291,34"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="547,79,612,105"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="320,29,533,76,531,81,319,34"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="153,153,249,178"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="204,105,204,137,198,137,198,105"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="179,108,105,147,102,143,177,103"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="272,153,330,178"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="219,103,273,141,270,145,216,107"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="354,153,400,178"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="232,103,340,147,338,151,230,108"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="IRTrackerUtils.h" name="IRTrackerUtils.h">
+<area shape="rect" id="Node000001" title="Function prototypes for general utilities used by the Holo2IRTracker class. Implementations split in ..." alt="" coords="186,5,301,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,101,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,34,100,76,99,71,210,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="124,79,249,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="236,33,208,68,204,65,232,30"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="272,79,330,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="255,30,284,65,280,68,251,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="354,79,400,105"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="268,29,342,69,340,74,265,34"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Holo2IRTracker.h" name="Holo2IRTracker.h">
+<area shape="rect" id="Node000001" title="Function prototypes for the HoloLens2 IR Tracker class." alt="" coords="138,5,260,31"/>
+<area shape="rect" id="Node000002" href="$_h_l2_research_mode_controller_8h.html" title="Function prototypes for the HL2ResearchMode class." alt="" coords="5,79,203,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,43,121,81,118,77,169,39"/>
+<area shape="rect" id="Node000003" href="$_holo2_i_r_tracker_8cpp.html" title="Implementations for Holo2IRTracker." alt="" coords="227,79,363,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,38,280,76,277,81,225,43"/>
+</map>

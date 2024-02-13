@@ -1,0 +1,7 @@
+<map id="winrt::HL2DinoPlugin::implementation::HL2ResearchModeController" name="winrt::HL2DinoPlugin::implementation::HL2ResearchModeController">
+<area shape="rect" id="Node000001" title=" " alt="" coords="108,109,311,165"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,224,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,56,188,107,184,110,139,60"/>
+<area shape="rect" id="Node000003" href="$class_holo2_i_r_tracker.html" title=" " alt="" coords="248,13,360,39"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,52,235,110,231,107,282,48"/>
+</map>

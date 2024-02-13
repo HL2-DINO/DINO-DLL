@@ -1,0 +1,34 @@
+<map id="Holo2IRTracker.cpp" name="Holo2IRTracker.cpp">
+<area shape="rect" id="Node000001" title="Implementations for Holo2IRTracker." alt="" coords="503,5,639,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,59,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="502,28,310,47,194,63,78,82,74,82,73,77,77,76,193,57,310,42,502,22"/>
+<area shape="rect" id="Node000003" href="$_holo2_i_r_tracker_8h.html" title="Function prototypes for the HoloLens2 IR Tracker class." alt="" coords="510,79,632,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="573,31,573,63,568,63,568,31"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="162,226,257,252"/>
+<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="503,34,410,53,307,80,259,97,217,115,184,134,164,154,159,169,163,184,185,214,181,217,158,186,154,169,159,151,181,130,214,110,257,92,305,75,409,48,501,29"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="391,226,449,252"/>
+<area shape="poly" id="edge17_Node000001_Node000005" title=" " alt="" coords="555,34,528,55,499,81,470,115,448,154,428,212,423,210,443,152,465,112,495,77,524,51,552,29"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="582,226,629,252"/>
+<area shape="poly" id="edge18_Node000001_Node000006" title=" " alt="" coords="625,29,673,45,726,70,776,105,797,127,814,151,829,180,832,199,824,209,805,212,741,213,697,217,644,228,643,223,696,212,741,208,804,207,821,204,827,197,824,182,810,154,793,130,772,109,724,75,671,50,623,34"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="653,226,777,252"/>
+<area shape="poly" id="edge19_Node000001_Node000007" title=" " alt="" coords="640,26,695,40,753,64,780,80,804,100,824,124,839,152,841,164,840,176,827,196,805,211,779,223,777,218,802,207,823,192,835,174,836,165,833,154,820,127,800,104,777,85,751,69,694,45,638,31"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="723,153,800,178"/>
+<area shape="poly" id="edge20_Node000001_Node000008" title=" " alt="" coords="588,29,735,141,732,145,585,33"/>
+<area shape="rect" id="Node000010" href="$_correspondence_matcher_8h.html" title="Utility class for computing point&#45;correspondences between two sets of points." alt="" coords="184,153,357,178"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="511,34,445,53,377,81,332,112,295,144,291,140,329,107,375,77,443,48,510,29"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="926,79,991,105"/>
+<area shape="poly" id="edge21_Node000001_Node000011" title=" " alt="" coords="640,28,907,76,911,77,910,82,906,82,639,33"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="509,96,420,99,319,107,271,115,229,125,196,138,174,154,168,168,170,183,189,214,185,217,165,185,163,167,170,151,193,134,228,120,270,110,318,102,420,93,509,90"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="544,107,508,127,473,155,450,184,433,214,429,211,445,181,469,151,505,123,541,103"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="584,104,599,125,612,152,616,182,614,211,608,211,611,183,607,153,595,128,579,107"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="585,103,633,151,695,214,691,217,629,155,581,107"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="604,103,716,144,714,149,602,108"/>
+<area shape="rect" id="Node000009" href="$_i_r_tracker_utils_8h.html" title="Function prototypes for general utilities used by the Holo2IRTracker class. Implementations split in ..." alt="" coords="482,153,598,178"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="568,106,554,139,549,137,563,104"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="484,182,273,227,272,222,483,176"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="521,181,455,220,452,216,518,177"/>
+<area shape="poly" id="edge12_Node000009_Node000006" title=" " alt="" coords="553,177,586,213,582,217,549,180"/>
+<area shape="poly" id="edge10_Node000009_Node000007" title=" " alt="" coords="571,176,672,218,670,222,569,181"/>
+<area shape="poly" id="edge14_Node000010_Node000004" title=" " alt="" coords="263,180,232,216,228,213,259,177"/>
+<area shape="poly" id="edge15_Node000010_Node000005" title=" " alt="" coords="297,176,382,217,380,222,295,181"/>
+</map>

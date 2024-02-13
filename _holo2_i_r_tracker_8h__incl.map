@@ -1,0 +1,19 @@
+<map id="Holo2IRTracker.h" name="Holo2IRTracker.h">
+<area shape="rect" id="Node000001" title="Function prototypes for the HoloLens2 IR Tracker class." alt="" coords="181,5,304,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,153,101,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,34,163,53,119,81,91,110,69,141,65,138,86,107,115,77,160,49,205,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="126,153,183,178"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,34,157,52,141,65,129,80,124,94,125,109,139,139,134,141,120,111,119,94,124,78,138,61,155,47,192,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="207,153,254,178"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,31,266,64,269,85,268,105,251,141,246,139,262,104,264,85,261,65,247,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="278,153,402,178"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="253,30,286,78,326,138,322,141,281,80,248,33"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="378,79,456,105"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="273,29,374,70,372,75,271,34"/>
+<area shape="rect" id="Node000007" href="$_i_r_tracker_utils_8h.html" title="Function prototypes for general utilities used by the Holo2IRTracker class. Implementations split in ..." alt="" coords="138,79,253,105"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="237,33,214,67,210,64,232,30"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="173,108,92,148,90,143,170,103"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="191,106,171,141,167,138,187,104"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="204,104,220,137,215,140,199,106"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="221,103,303,143,300,148,219,108"/>
+</map>
