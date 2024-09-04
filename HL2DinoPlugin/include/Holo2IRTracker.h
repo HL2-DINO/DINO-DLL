@@ -30,20 +30,6 @@ class Holo2IRTracker
 		Holo2IRTracker(const std::string& encodedString, bool isJSONString = false);
 		//-------------------------------------------------------------------------------------------------------------
 
-		//-------------------------------------------------------------------------------------------------------------
-		//! Key function of this class, which updates our internal tool dictionary when IR marker-equipped tools are 
-		//! visible to the headset.
-		//!
-		//! \param ABImg			Pointer to Active-Brightness or IR-response buffer, expecting raw image as it comes 
-		//!							out of the ResearchModeAPI without modification.
-		//! \param DepthImg			Pointer to Depth Image buffer, as it comes out of ResearchModeAPI without 
-		//!							modification.
-		//! \param depth2world		Transform matrix from depth coordinates to holographic world frame.
-		void ProcessLatestFrames(
-			const uint16_t*						ABImg,
-			const uint16_t*						DepthImg,
-			const Eigen::Ref<Eigen::Matrix4d>	depth2world);
-
 		//! Key function of this class, which updates our internal tool dictionary when IR marker-equipped tools are 
 		//! visible to the headset.
 		//!

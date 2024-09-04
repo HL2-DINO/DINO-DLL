@@ -208,44 +208,28 @@ namespace IRTrackerUtils
 	}
 
     void ImageProc::ValidateBlobs3D(const cv::Mat&                      inDepthImg, 
-                                    const Eigen::Ref<Eigen::Matrix4d>   inDepth2World, 
-                                    const std::vector<cv::Point2f>&     inBlobPixels2D, 
-                                    const UnmapFunction                 MapImagePointToCameraUnitPlane, 
+                                    const std::vector<cv::Point2f>&     inBlobPixels2D,
                                     std::vector<InfraBlobInfo>&         outBlobInfo)
     {
         PROFILE_BLOCK(ValidateBlobs3D);
         using namespace Eigen;
         if (outBlobInfo.size() > 0) outBlobInfo.clear();
 
-        // if we can't access the depth-camera's unmap function, exit
-        if (!MapImagePointToCameraUnitPlane) { return; }
-
-        Vector3d pointInDepth, pointInWorld;
-        Eigen::Affine3d transform(inDepth2World);
         for (const auto& pixelLocation : inBlobPixels2D)
         {
             const float depthVal = BilinearInterpolation(inDepthImg, pixelLocation);
             
             // check: https://github.com/microsoft/HoloLens2ForCV/blob/main/Samples/SensorVisualization/SensorVisualization/Content/SlateCameraRenderer.cpp
             // for the magic val of 4090 for depth AHAT
-            if (depthVal == 0 || depthVal > 4090) { continue; }
+            if (depthVal == 0 || depthVal > 4090) { continue; } // if true, ignore this blob
 
-            float xy[2] = { 0.0,0.0 };
-            float uv[2] = { pixelLocation.x, pixelLocation.y };
+            InfraBlobInfo valid_blob
+            {   /*PixelCoordinate = */  cv::Point2f(pixelLocation.x, pixelLocation.y),
+                /*DepthLocation = */    Eigen::Vector3d::Zero(),
+                /*WorldLocation = */    Eigen::Vector3d::Zero(),
+                /*DepthValue = */       depthVal 
+            };
 
-            // unmap to unit plane, function should return false in case
-            // of any 'bad' inputs
-            if (!MapImagePointToCameraUnitPlane(uv, xy)) continue;
-            
-            pointInDepth = Vector3d(static_cast<double>(xy[0]), 
-                                    static_cast<double>(xy[1]), 
-                                                           1);
-
-            pointInDepth.normalize(); // turn it into a unit vector
-            pointInDepth *= (static_cast<double>(depthVal) / 1000.0); // convert into metres
-            pointInWorld = transform * pointInDepth.homogeneous();
-
-            InfraBlobInfo valid_blob{ cv::Point2f(pixelLocation.x, pixelLocation.y), pointInDepth, pointInWorld };
             outBlobInfo.emplace_back(valid_blob);
         }
     }

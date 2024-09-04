@@ -30,6 +30,7 @@ namespace IRTrackerUtils
         cv::Point2f         PixelCoordinate;    /*!< 2D location of blob, stored for label purposes */
         Eigen::Vector3d     DepthLocation;      /*!< 3D location of this blob in the sensor coordinate frame */
         Eigen::Vector3d     WorldLocation;      /*!< 3D location of this blob in the world coordinate frame */
+        float               DepthValue = 0;     /*!< Raw depth value returned by sensor */
     };
     //-------------------------------------------------------------------------------------------------------------
 
@@ -46,6 +47,19 @@ namespace IRTrackerUtils
         Eigen::Matrix4d                 PoseMatrix_HoloWorld;       /*!< 4x4 transform matrix of tool pose in world frame */
         Eigen::Matrix4d                 PoseMatrix_DepthCamera;     /*!< 4x4 transform matrix of tool pose w.r.t depth sensor frame*/
         std::vector<cv::Point2i>        ObservedImgKeypoints;       /*!< Image coordinates for marker-centres for labelling (same order as GeometryPoints) */
+        float                           MarkerRadius_m = 0.0f;      /*!< Radius of IR reflective markers attached to this tool, 0 means flat markers */
+
+        //! Reset fields which should be cleared once a frame before processing tracking data
+        //! 
+        void ResetValues()
+        {
+            this->VisibleToHoloLens = false;
+            this->ObservedImgKeypoints.clear();
+            this->ObservedPoints_Depth.clear();
+            this->ObservedPoints_World.clear();
+            this->PoseMatrix_DepthCamera = Eigen::Matrix4d::Identity();
+            this->PoseMatrix_HoloWorld = Eigen::Matrix4d::Identity();
+        }
     };
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -138,10 +152,8 @@ namespace IRTrackerUtils::ImageProc
     //! @param MapImagePointToUnitPlane      Pointer to function that converts from 2D pixel locations (u,v) to the camera's unit plane (x,y,1) 
     //! @param outBlobInfo                   Vector to populate with valid 3D blob info specified by \ref InfraBlobInfo
     void ValidateBlobs3D(
-        const cv::Mat&                       inDepthImg, 
-        const Eigen::Ref<Eigen::Matrix4d>    inDepth2World,
+        const cv::Mat&                       inDepthImg,
         const std::vector<cv::Point2f>&      inblobPixels2D, 
-        const UnmapFunction                  MapImagePointToUnitPlane, 
         std::vector<InfraBlobInfo>&          outBlobInfo
     );
     //-------------------------------------------------------------------------------------------------------------

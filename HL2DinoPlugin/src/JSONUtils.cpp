@@ -60,6 +60,17 @@ namespace
         IJsonValue idVal = toolObject.GetNamedValue(L"id", nullptr);
         return (idVal.ValueType() == JsonValueType::Number) ? static_cast<uint8_t>(idVal.GetNumber()) : -1;
     }
+
+    float GetMarkerRadius(const JsonObject& toolObject)
+    {
+        // this should be provided in metres in the file if not sanitised by DINO-Unity logic
+        using namespace winrt::Windows::Data::Json;
+        IJsonValue markerRad_val = toolObject.GetNamedValue(L"marker_radius_m", nullptr);
+
+        // defaults to 0 if no valid value / not mentioned in the entry for this tool in JSON file (effectively a flat marker)
+        if (markerRad_val == nullptr) return 0.0f;
+        return (markerRad_val.ValueType() == JsonValueType::Number) ? static_cast<float>(markerRad_val.GetNumber()) : 0.0f;
+    }
 }
 
 namespace IRTrackerUtils::JSONUtils
@@ -88,6 +99,7 @@ namespace IRTrackerUtils::JSONUtils
             TrackedTool emptyTool;
             emptyTool.ID = static_cast<uint8_t>(idx);
             emptyTool.GeometryPoints = toolCoordinateSet;
+            emptyTool.MarkerRadius_m = GetMarkerRadius(toolObject);
             toolDictionary.try_emplace(idx, emptyTool);
         }
 	}

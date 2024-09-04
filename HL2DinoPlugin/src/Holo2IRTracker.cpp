@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "IRTrackerUtils.h"
 #include "Holo2IRTracker.h"
 #include "CorrespondenceMatcher.h"
 #include "Eigen/Dense"
@@ -27,44 +28,68 @@ constexpr bool USE_REFINED_BLOB_DETECT = false;
 namespace // Anonymous Helper Functions
 {
     //! @brief Walk through \p validBlobData to figure out if there are any blobs corresponding to tools in the \p toolDictionary
-    //! @param validBlobData    Info about blobs detected in the latest frame
-    //! @param toolDictionary   Tool dictionary that we will transform if there are any blobs from tools stored in the dictionary
-    void TryUpdatingToolDictionary(std::vector<IRTrackerUtils::InfraBlobInfo>& validBlobData, std::map<uint8_t, IRTrackerUtils::TrackedTool>& toolDictionary)
+    //! 
+    //! @param validBlobData                Info about blobs detected in the latest frame
+    //! @param toolDictionary               Tool dictionary that we will transform if there are any blobs from tools stored in the dictionary
+    //! @param MapImagePointToUnitPlane     Pointer to function that converts from 2D pixel locations (u,v) to the camera's unit plane (x,y,1) 
+    //! @param inDepth2World                Transform matrix of depth sensor to world coordinate system in this frame 
+ 
+    void FindToolsFromBlobData(
+        std::vector<IRTrackerUtils::InfraBlobInfo>&         validBlobData, 
+        std::map<uint8_t, IRTrackerUtils::TrackedTool>&     toolDictionary,
+        const IRTrackerUtils::UnmapFunction                 MapImagePointToCameraUnitPlane,
+        const Eigen::Ref<Eigen::Matrix4d>                   inDepth2World
+    )
     {
         PROFILE_BLOCK(ToolDictionaryUpdate);
         using namespace Eigen;
         using namespace IRTrackerUtils;
-        // vectorise validBlobData members for easy access later
-        // cache these vectors?
-        std::vector<Vector3d> collectedPoints; collectedPoints.reserve(validBlobData.size());
-        std::vector<Vector3d> collectedDepthPoints; collectedDepthPoints.reserve(validBlobData.size());
-        std::vector<cv::Point2i> blobPixelLocations; blobPixelLocations.reserve(validBlobData.size());
 
-        for (const InfraBlobInfo& blob : validBlobData)
-        {
-            // used for registration to holographic world frame
-            collectedPoints.emplace_back(blob.WorldLocation);
-
-            // stored in case we do any depth cam specific calculations
-            collectedDepthPoints.emplace_back(blob.DepthLocation);
-
-            // stored for image labelling purpose
-            blobPixelLocations.emplace_back(blob.PixelCoordinate);
-        }
+        Eigen::Affine3d transform(inDepth2World);
 
         typedef std::vector<std::vector<int>> ConfigurationList;
+        
         for (auto& [_, tool] : toolDictionary)
         {
+            std::vector<Vector3d> observedBlobsWorldFrame;
+            std::vector<Vector3d> observedBlobsDepthFrame;
+            std::vector<cv::Point2i> blobPixelLocations;
+
+            for (const InfraBlobInfo& blob : validBlobData)
+            {
+                float xy[2] = { 0.0,0.0 };
+                float uv[2] = { blob.PixelCoordinate.x, blob.PixelCoordinate.y };
+
+                // unmap to unit plane, function should return false in case of any 'bad' inputs
+                if (!MapImagePointToCameraUnitPlane(uv, xy)) continue;
+
+                auto pointInDepth = Vector3d(static_cast<double>(xy[0]),
+                                             static_cast<double>(xy[1]),
+                                                                    1);
+                auto depthVal = blob.DepthValue;
+                depthVal += (tool.MarkerRadius_m * 1000); // depth is slightly further away than surface of marker
+
+                pointInDepth.normalize(); // turn it into a unit vector
+                pointInDepth *= (static_cast<double>(depthVal) / 1000.0); // convert into metres
+
+                auto pointInWorld = transform * pointInDepth.homogeneous(); // converts from depth sensor coordinates to world frame
+                
+                // used for registration to holographic world frame
+                observedBlobsWorldFrame.emplace_back(pointInWorld);
+
+                // stored in case we do any depth cam specific calculations
+                observedBlobsDepthFrame.emplace_back(pointInDepth);
+
+                // stored for image labelling purpose
+                blobPixelLocations.emplace_back(blob.PixelCoordinate);
+            }
+
             // initialise / zero appropriate values
-            tool.PoseMatrix_HoloWorld = Eigen::Matrix4d::Identity();
-            tool.VisibleToHoloLens = false;
-            tool.ObservedImgKeypoints.clear();
-            tool.ObservedPoints_Depth.clear();
-            tool.ObservedPoints_World.clear();
+            tool.ResetValues();
 
             ConfigurationList candidateList;
             PROFILE_BEGIN(FindingPointCorrespondence);
-            bool toolNotFound = !CorrespondenceMatcher::GetPointCorrespondence(tool.GeometryPoints, collectedPoints, candidateList);
+            bool toolNotFound = !CorrespondenceMatcher::GetPointCorrespondence(tool.GeometryPoints, observedBlobsWorldFrame, candidateList);
             PROFILE_END();
             if (toolNotFound) { continue; }
 
@@ -77,10 +102,10 @@ namespace // Anonymous Helper Functions
              */
             for (const auto& idx : indexList)
             {
-                if (idx > -1 && idx < collectedPoints.size())
+                if (idx > -1 && idx < observedBlobsWorldFrame.size())
                 {
-                    tool.ObservedPoints_World.emplace_back(collectedPoints[idx]);
-                    tool.ObservedPoints_Depth.emplace_back(collectedDepthPoints[idx]);
+                    tool.ObservedPoints_World.emplace_back(observedBlobsWorldFrame[idx]);
+                    tool.ObservedPoints_Depth.emplace_back(observedBlobsDepthFrame[idx]);
                     tool.ObservedImgKeypoints.emplace_back(blobPixelLocations[idx]);
                 }
             }
@@ -91,7 +116,8 @@ namespace // Anonymous Helper Functions
             // gives us the transform from tool coordinate frame to HL2 world frame, aka, the pose of the
             // tool in the virtual world
             PROFILE_BEGIN(ComputingPoseTransform);
-            tool.PoseMatrix_HoloWorld = CorrespondenceMatcher::ComputeRigidTransform(
+            using namespace CorrespondenceMatcher;
+            tool.PoseMatrix_HoloWorld = ComputeRigidTransform(
                 tool.GeometryPoints,
                 tool.ObservedPoints_World);
             PROFILE_END();
@@ -109,13 +135,10 @@ namespace // Anonymous Helper Functions
             {
                 const int idx = *(it);
                 validBlobData.erase(validBlobData.begin() + idx);
-                collectedPoints.erase(collectedPoints.begin() + idx);
-                blobPixelLocations.erase(blobPixelLocations.begin() + idx);
-                collectedDepthPoints.erase(collectedDepthPoints.begin() + idx);
             }
         }
     }
-    
+
     // could be deprecated in final version
     void SetToolListFromString(const std::string& encoded_string, std::map<uint8_t, IRTrackerUtils::TrackedTool>& toolDictionary)
     {
@@ -243,11 +266,11 @@ void Holo2IRTracker::ProcessLatestFrames(const uint16_t* ABImg, const uint16_t* 
     DetectBlobs2D(m_ABImg8bit, method, m_cache_frameBlobPixelLocations);
     
     // 5) Check if these circular blobs have meaningful depth locations and thus if they're 'valid' or not
-    ValidateBlobs3D(m_DepthImg16bit, depth2world, m_cache_frameBlobPixelLocations, m_MapImageToUnitPlane, m_cache_frameBlobInfo);
+    ValidateBlobs3D(m_DepthImg16bit, m_cache_frameBlobPixelLocations, m_cache_frameBlobInfo);
 
     // 6) Examine all the valid 3D blobs in this frame, and then check if they correspond to tools we're tracking
-    TryUpdatingToolDictionary(m_cache_frameBlobInfo, m_ToolDictionary);
-
+    FindToolsFromBlobData(m_cache_frameBlobInfo, m_ToolDictionary, m_MapImageToUnitPlane, depth2world);
+    
     // 7) Optionally label and store our images for display elsewhere
     if (UpdateDisplayImages)
     {
@@ -257,28 +280,6 @@ void Holo2IRTracker::ProcessLatestFrames(const uint16_t* ABImg, const uint16_t* 
         // process the depth image to produce an 8bit depth display texture
         GetProcessed8BitDepthImg(m_DepthImg16bit, m_DepthDisplayImg8bit);
     }
-}
-
-void Holo2IRTracker::ProcessLatestFrames(const uint16_t* ABImg, const uint16_t* DepthImg, const Eigen::Ref<Eigen::Matrix4d> depth2world)
-{
-	using namespace IRTrackerUtils::ImageProc;
-
-    m_cache_frameBlobInfo.clear();
-    m_cache_frameBlobPixelLocations.clear();
-
-    NativeToCVMat(ABImg, m_ABImg16bit, IMG_HEIGHT, IMG_WIDTH);
-    NativeToCVMat(DepthImg, m_DepthImg16bit, IMG_HEIGHT, IMG_WIDTH);
-
-    RebalanceImgAnd8Bit(m_ABImg16bit, m_ABImg8bit);
-
-    BlobDetectionMethod method;
-    if (USE_REFINED_BLOB_DETECT) method = BlobDetectionMethod::RefineByScaling;
-    else method = BlobDetectionMethod::Basic;
-    
-    DetectBlobs2D(m_ABImg8bit, method, m_cache_frameBlobPixelLocations);
-    ValidateBlobs3D(m_DepthImg16bit, depth2world, m_cache_frameBlobPixelLocations, m_MapImageToUnitPlane, m_cache_frameBlobInfo);
-
-    TryUpdatingToolDictionary(m_cache_frameBlobInfo, m_ToolDictionary);
 }
 
 int Holo2IRTracker::TrackedToolsCount()
