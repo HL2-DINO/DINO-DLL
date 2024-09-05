@@ -1,10 +1,10 @@
 <p align=center>
-  <img src="docs/img/dll_logo_light.png" width="95%/>
-</div>
+  <img src="docs/img/dll_logo_light.png" width="95%"/>
+</p>
 
 <html>
 <body>
-   <h3 align="center"><strong>HoloLens 2 &amp; <ins>D</ins>etection for <ins>I</ins>nfrared <ins>N</ins>avigation with <ins>O</ins>ST AR headsets</strong></p>
+   <h3 align="center"><strong>HoloLens 2 &amp; <ins>D</ins>etection for <ins>I</ins>nfrared <ins>N</ins>avigation with <ins>O</ins>ST AR headsets</strong></h3>
   
    <p align="center">
     <a href="#overview">Overview</a> •
@@ -20,6 +20,17 @@
 This is the C++ DLL used for the image-processing and tool-pose estimation used by the system reported in our publication: [Semi-Automatic Infrared Calibration for Augmented Reality Systems in Surgery](https://ieeexplore.ieee.org/document/9982215)[^1] by Hisham Iqbal & Ferdinando Rodriguez y Baena. 
 
 This project is a Windows Runtime Component (C++/WinRT)[^2] DLL designed to enable the HoloLens 2 to detect the presence of tools equipped with IR-reflective markers. The resulting `.dll` and `.winmd` files can be copied and easily consumed on a C\# Unity app (see [`HL2-DINO-Unity`](https://github.com/HL2-DINO/DINO-Unity) for example).
+
+---
+
+> [!NOTE]  
+> The _experimental_ branch includes new features that are under development and may require further testing and refinement. Any significant commits are highlighted below.
+
+| Change                      | Description                                          | 
+|-----------------------------|------------------------------------------------------|
+| Commit [`a8082fe`](https://github.com/HL2-DINO/DINO-DLL/commit/a8082fec952e853dd53f8d9f759d8656e799aa8e) | Added support for spherical passive markers by parsing the `marker_radius_m` key in the JSON config and iteratively using different radii to compute tool poses in `Holo2IRTracker.cpp` |
+
+---
 
 <html>
 <div align="center">
@@ -46,7 +57,8 @@ For more details on each class, [check out the docs](https://hl2-dino.github.io/
 
 See the [NOTICE](./NOTICE) file in the repo for more details.
 
-> **Note:** Shiny-UWP is optional and can be removed altogether if you are not interested in this info. 
+> [!TIP]
+> Shiny-UWP is optional and can be removed altogether if you are not interested in this info. 
 
 ## Getting Started
 1. `git clone https://github.com/HL2-DINO/DINO-DLL.git`
@@ -83,7 +95,8 @@ Two outputs of this process (`HL2DinoPlugin.dll` & `HL2DinoPlugin.winmd`) will b
   1. [HoloLens2-ResearchMode-Unity](https://github.com/petergu684/HoloLens2-ResearchMode-Unity) originally made available by [petergu684](https://github.com/petergu684/). 
   2. [HoloLens2ForCV](https://github.com/microsoft/HoloLens2ForCV) originally made available by Microsoft.
 
->**Note**: [Gear Icon in repository logo created by Freepik - Flaticon](https://www.flaticon.com/free-icons/settings)
+> [!NOTE]
+> Gear Icon in repository logo [created by Freepik - Flaticon](https://www.flaticon.com/free-icons/settings)
 
 ## Appendix 
 ### Additional Notes
